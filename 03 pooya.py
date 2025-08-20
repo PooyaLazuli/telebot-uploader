@@ -4,8 +4,7 @@ import nest_asyncio
 nest_asyncio.apply()
 
 BOT_TOKEN =   '8315067884:AAH0nt84cgJxdJwQ3KZDT0Apso451HU8_FM'
-ADMIN_ID = 7809280780          # ⅞← آیدی عددی خودت را اینجا وارد کن
-
+ADMIN_ID = 7809280780          
 import os
 import logging
 from telegram import Update, InputFile
@@ -14,7 +13,7 @@ from telegram.ext import (
     ContextTypes, filters
 )
 
-# 📁 مسیر پوشه ذخیره فایل‌ها
+
 MEDIA_DIR = "media"
 LOG_FILE = "download_logs.txt"
 upload_mode_users = set()
@@ -25,7 +24,7 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 
-# /start با لینک
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     if context.args:
@@ -41,17 +40,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text("سلام! برای دریافت فایل، روی لینک دانلود کلیک کن.")
 
-# /myid
+
 async def myid(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(f"🆔 آیدی عددی شما: `{update.effective_user.id}`", parse_mode="Markdown")
 
-# /upload
+
 async def upload(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id == ADMIN_ID:
         upload_mode_users.add(update.effective_user.id)
         await update.message.reply_text("✅ حالت آپلود فعال شد! لطفاً فایل را بفرست.")
 
-# هندل فایل‌ها
+
 async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     file = update.message.document or update.message.video or (update.message.photo[-1] if update.message.photo else None)
@@ -80,7 +79,7 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f.write(f"{user.id} ({user.username}) دانلود کرد: {file_name}\n")
         await context.bot.send_message(chat_id=ADMIN_ID, text=f"📥 @{user.username} فایل {file_name} را دانلود کرد.")
 
-# /logs
+
 async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
         await update.message.reply_text("⛔ دسترسی ندارید.")
@@ -99,7 +98,7 @@ async def logs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     for i in range(0, len(text), 4000):
         await update.message.reply_text(f"📜 گزارش:\n{text[i:i+4000]}")
 
-# /log username
+
 async def log_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
         await update.message.reply_text("⛔ دسترسی ندارید.")
@@ -158,5 +157,6 @@ async def main():
     await app.start()
     print("🤖 ربات اجرا شد. منتظر پیام هستم...")
     await app.updater.start_polling()
+
 
 await main()
