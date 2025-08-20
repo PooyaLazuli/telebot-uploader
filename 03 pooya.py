@@ -3,7 +3,7 @@
 import nest_asyncio
 nest_asyncio.apply()
 
-BOT_TOKEN =   '8315067884:AAH0nt84cgJxdJwQ3KZDT0Apso451HU8_FM'
+BOT_TOKEN =   ''
 ADMIN_ID = 7809280780          
 import os
 import logging
@@ -160,3 +160,4 @@ async def main():
 
 
 await main()
+
